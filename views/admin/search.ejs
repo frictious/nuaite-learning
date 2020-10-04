@@ -1,0 +1,28 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/search" method="POST">
+        <select name="department" id="department">
+            <% department.forEach((department) => { %>
+                <option value="<%- department.name %>"><%- department.name %></option>
+            <%});%>
+        </select>
+        <select name="program" id="program">program
+            <% program.forEach((program) => { %>
+                <option value="<%- program.name %>"><%- program.name %></option>
+            <% }); %>
+        </select>
+        <select name="semester" id="semester">
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+        </select>
+        <label for="year">
+            <input type="number" name="year" placeholder="Program Year" id="year">
+        </label>
+        <button type="submit">Search</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

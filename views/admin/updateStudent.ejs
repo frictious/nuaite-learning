@@ -1,0 +1,26 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <!--Student Registration Form-->
+    <form action="/admin/students/<%- student._id %>/edit?_method=PUT" method="post">
+        <h1>UPDATE STUDENT INFO</h1>
+        <label for="name">
+            <input type="text" name="name" value="<%- student.name%>" id="name">
+        </label>
+
+        <label for="studentID">
+            <input type="number" name="studentID" id="studentID" value="<%- student.studentID%>">
+        </label>
+        <label for="email">
+            <input type="email" name="email" id="email" value="<%- student.email%>">
+        </label>
+        <label for="year">
+            <input type="number" name="year" value="<%- student.year %>" id="year">
+        </label>
+        <button type="submit">Update Student Info</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

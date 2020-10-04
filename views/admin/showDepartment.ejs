@@ -1,0 +1,29 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/admin/files/<%- department.photo%>" alt="Department Image">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- department.name %></h1>
+
+    <h3>The Dean is: <%- department.DeanName %></h3>
+    <h3>The HOD is: <%- department.HODName %></h3>
+
+    <section>
+        <p>
+            <%- department.description %>
+        </p>
+
+        <p>
+            Here is the departmental activities file for download
+            <a href="/admin/files/<%- department.activities %>">Click to download</a>
+        </p>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

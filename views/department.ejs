@@ -1,40 +1,36 @@
 <%- include("partials/header")%>
 
 <!-- Background Image -->
-<section class="bg-image">
-    <img src="images/nuaits.jpg" alt="NUAITS Logo">
+<section class="bg-image">    
+    <img src="/file/<%- departments.photo %>" alt="Departmental Logo">
 </section>
 <!-- End of background image -->
 
 <!-- main section -->
 <main>
-    <h1>Department Name</h1>
+    <% departments.forEach((department) => { %>
+        <h1><%- department.name %></h1>
+    <% }); %>
 
     <section>
-        <table border="1px">
-            <caption><strong>ACTIVITIES/CALENDAR</strong></caption>
-            <thead>
-                <tr>
-                    <th>NAME</th>
-                    <th>START DATE</th>
-                    <th>END DATE</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>EXAM</td>
-                    <td>12/May/2021</td>
-                    <td>31/June/2021</td>
-                </tr>
-            </tbody>
-        </table>
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci ipsum doloremque officia est quo corporis facilis sequi quis vero consequatur maiores, voluptate voluptates? A esse odit minima nobis, quibusdam quisquam.
+            The departmental activities calendar gives an account of all the activities that will be carried out in the department for that particular academic year.
+        </p>
+        <p>
+            Students are therefore advised to download the activities calendar file and go through it in order to know the different activities that they will be carried out in his/her department.
         </p>
 
         <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas eum reiciendis incidunt quisquam numquam. Vitae, impedit aliquid facere praesentium reprehenderit consequuntur molestias quo cupiditate. Doloremque sequi amet expedita neque ipsum.
+            <% departments.forEach((department) => { %>
+                <a href="/file/<%- department.activities %>"><%- department.activities %></a>
+            <% }); %>
+        </p>
+
+        <h2>DEPARTMENT DESCRIPTION</h2>
+        <p>
+            <% departments.forEach((department) => { %>
+                <%- department.description %>
+            <%});%>
         </p>
     </section>
 </main>

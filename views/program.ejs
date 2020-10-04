@@ -8,47 +8,44 @@
 
 <!-- main section -->
 <main>
-    <h1>Program Name</h1>
-
-    <!--<section>
-        <table border="1px">
-            <caption><strong>ACTIVITIES/CALENDAR</strong></caption>
-            <thead>
-                <tr>
-                    <th>NAME</th>
-                    <th>START DATE</th>
-                    <th>END DATE</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>EXAM</td>
-                    <td>12/May/2021</td>
-                    <td>31/June/2021</td>
-                </tr>
-            </tbody>
-        </table>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci ipsum doloremque officia est quo corporis facilis sequi quis vero consequatur maiores, voluptate voluptates? A esse odit minima nobis, quibusdam quisquam.
-        </p>
-
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas eum reiciendis incidunt quisquam numquam. Vitae, impedit aliquid facere praesentium reprehenderit consequuntur molestias quo cupiditate. Doloremque sequi amet expedita neque ipsum.
-        </p>
-    </section>-->
+    <h1><%- program.name %></h1>
     <section>
         <p>
             Here, you will gain access to:
         </p>
         <ul>
-            <li>Class course outline</li>
+            <li>Course Curriculum</li>
             <li>Timetable</li>
-            <li>Curricullum(s)</li>
-            <li>Semester Schedule</li>
             <li>Notes and</li>
             <li>Assignments</li>
         </ul>
+    </section>
+
+    <section>
+        <h4>Description:</h4>
+        <p>
+            <%- program.description %>
+        </p>
+
+        <p>
+            The timetable for this program is attached below, you can easily click the download button to get it it.
+            <a href="/admin/files/<%- program.timetable %>">Click to download</a>
+        </p>
+    </section>
+
+    <section>
+        <h3>Course Curriculum</h3>
+            <p>
+                The course curriculum gives you insight into the different topics that will be covered in a particular module. Students are to ensure that lecturers adhere to each topic in the curriculum. Click the link to download your curriculum.
+            </p>
+            <p>
+                You can click on the individual module name to see their note(s), description, and assignment(s).
+            </p>
+            <ul>
+            <% courses.forEach((course) => { %> 
+                <li><a href="/course/<%- course._id %>"><%- course.courseName %></a>: <a href="/file/<%- course.curriculum %>">download</a></li>
+            <% }); %>
+            </ul>
     </section>
 </main>
 <!-- End of main section -->

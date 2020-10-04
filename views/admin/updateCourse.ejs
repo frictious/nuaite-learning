@@ -1,0 +1,29 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/course/<%- course._id%>/edit?_method=PUT" method="POST">
+        <label for="name">Module Name
+            <input type="text" name="name" value="<%-course.courseName %>" id="name">
+        </label>
+        <label for="courseCode">Course Code
+            <input type="text" name="courseCode" value="<%- course.courseCode%>" id="courseCode">
+        </label>
+        <label for="creditHour">Credit Hour
+            <input type="number" name="creditHour" value="<%- course.creditHour %>" id="creditHour">
+        </label>
+        <label for="year">Course Year
+            <input type="text" name="year" value="<%- course.year%>" id="year">
+        </label>
+        <label for="semester">Semester
+            <input type="text" name="semester" value="<%- course.semester%>" id="semester">
+        </label>
+        <label for="lecturer">Lecturer
+            <input type="text" name="lecturer" value="<%- course.lecturer%>" id="lecturer">
+        </label>
+        <button type="submit">Update Course</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

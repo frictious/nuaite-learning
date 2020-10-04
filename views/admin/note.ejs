@@ -1,0 +1,41 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>NOTES SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>MODULE</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% notes.forEach((note) => {%>
+                <tr>
+                    <td>
+                        <a href="/admin/program/<%-note._id%>"><%-note.note%></a>
+                    </td>
+                    <td>
+                        <p><%- note.programName%></p>
+                    </td>
+                    <td>
+                        <form action="/admin/note/<%-note._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

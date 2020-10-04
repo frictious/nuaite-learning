@@ -9,10 +9,21 @@ $(document).ready(function() {
     });
 });
 
+//Hamburger button
 $(document).ready(() => {
     $('.hamburger').on('click', () => {
         $('nav').toggleClass('show');
     });
 });
+
+//Dropdown click
+// $(document).ready(() => {
+//     $('.dropdown > a').click(() => {
+//         $(this).parent().siblings().find('ul').fadeOut(500);
+//         $(this).next().stop(true, false, true).fadeToggle(500);
+//         return false;
+//         //$('nav').toggleClass('show');
+//     });
+// });
 
 //Height check

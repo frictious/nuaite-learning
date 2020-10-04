@@ -1,0 +1,45 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>COURSE SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>COURSE NAME</th>
+                <th>COURSE CODE</th>
+                <th>PROGRAM</th>
+                <th>CURRICULUM FILE</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% courses.forEach((course) => { %>
+            <tr>
+                <td>
+                    <a href="/course/<%- course._id%>"><%- course.courseName%></a>
+                </td>
+                <td>
+                    <p><%- course.courseCode%></p>
+                </td>
+                <td>
+                    <p><%- course.programName%></p>
+                </td>
+                <td>
+                    <a href="/files/<%- course.curriculum%>"><%- course.curriculum%></a>
+                </td>
+            </tr>
+             <% }); %>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

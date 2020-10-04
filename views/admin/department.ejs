@@ -1,0 +1,59 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>DEPARTMENTS SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>DEPARTMENT NAME</th>
+                <th colspan="2">ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% departments.forEach((departments) => {%>
+                <tr>
+                    <td>
+                        <a href="/admin/department/<%-departments._id%>"><%-departments.name%></a>
+                    </td>
+                    <td>
+                        <a href="/admin/department/<%-departments._id%>/edit">EDIT</a>
+                    </td>
+                    <td>
+                        <form action="/admin/department/<%-departments._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+    </table>
+    <!-- <section class="card">
+        <% departments.forEach((departments) => {%>
+            <div class="first">
+                <div class="card-img">
+                    <img src="images/logo.png" alt="CARD IMAGE">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-content">Name: <a href="/admin/department/<%-departments._id%>"><%-departments.name%></a></h3>
+                    
+                    <p>
+                        <%- departments.description.substring(0, 30) %>...<a href="/admin/department/<%-departments._id%>">Read More</a>
+                    </p>
+
+                </div>
+            </div>
+            
+        <% });%>
+    </section> -->
+    <!-- End of card -->
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

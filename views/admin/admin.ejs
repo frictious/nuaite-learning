@@ -1,0 +1,44 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>ADMINS SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>ADMIN NAME</th>
+                <th>EMAIL</th>
+                <th colspan="2">ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% admins.forEach((admin) => {%>
+                <tr>
+                    <td>
+                        <a href="/admin/admin/<%-admin._id%>"><%-admin.name%></a>
+                    </td>
+                    <td>
+                        <p><%- admin.email%></p>
+                    </td>
+                    <td>
+                        <a href="/admin/admin/<%-admin._id%>/edit">EDIT</a>
+                    </td>
+                    <td>
+                        <form action="/admin/admin/<%-admin._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

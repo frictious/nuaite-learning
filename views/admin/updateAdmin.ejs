@@ -1,0 +1,19 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <!--Admin Informstion Update Form-->
+    <form action="/admin/admin/<%- admin._id %>/edit?_method=PUT" method="post">
+        <h1>UPDATE ADMIN INFO</h1>
+        <label for="name">
+            <input type="text" name="name" value="<%- admin.name%>" id="name">
+        </label>
+        <label for="email">
+            <input type="email" name="email" id="email" value="<%- admin.email%>">
+        </label>
+        <button type="submit">Update Admin Info</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

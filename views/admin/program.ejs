@@ -1,0 +1,44 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>PROGRAM SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>PROGRAM NAME</th>
+                <th>BELONGS TO</th>
+                <th colspan="2">ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% programs.forEach((program) => {%>
+                <tr>
+                    <td>
+                        <a href="/admin/program/<%-program._id%>"><%-program.name%></a>
+                    </td>
+                    <td>
+                        <p><%- program.departmentName%> Department</p>
+                    </td>
+                    <td>
+                        <a href="/admin/program/<%-program._id%>/edit">EDIT</a>
+                    </td>
+                    <td>
+                        <form action="/admin/program/<%-program._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

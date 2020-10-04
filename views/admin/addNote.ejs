@@ -1,0 +1,22 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/note/add" method="POST" enctype="multipart/form-data">
+        <select name="courseName" id="courseName">
+            <% course.forEach((course) => {%> 
+                <option value="<%- course.courseName %>"><%- course.courseName %></option>
+            <%});%>
+        </select>
+        <label for="note">Note File
+            <input type="file" name="note" id="note">
+        </label>
+        <label for="year">
+            <input type="number" name="year" placeholder="Course Year" id="year">
+        </label>
+        <button type="submit">Create Note</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

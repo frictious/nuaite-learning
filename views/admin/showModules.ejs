@@ -1,0 +1,28 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-3.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- modules.name %></h1>
+
+    <h3>Belongs to: <%- modules.department %></h3>
+
+    <section>
+        <p>
+            <%- //program.description %>
+        </p>
+
+        <p>
+            Here is the departmental activities file for download
+            <a href="/admin/department/activities/<%- //department.activities %>">Click to download</a>
+        </p>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>
