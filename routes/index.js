@@ -29,6 +29,7 @@ function isLoggedIn(req, res, next){
 //ROUTES
 //Index Route
 router.get("/", (req, res) => {
+    console.log(req.user);
     res.render("index", {
         title : "Welcome to Njala E-Learning Platform",
         description: "Njala E-Learning Platform"
@@ -200,7 +201,7 @@ router.get("/course", isLoggedIn, (req, res) => {
 });
 
 //Show course route
-router.get("/course/:id", (req, res) => {
+router.get("/course/:id", isLoggedIn, (req, res) => {
     Course.findOne({_id : req.params.id}, (err, foundCourse) => {
         if(foundCourse){
             Note.find({courseName : foundCourse.courseName}, (err, notes) => {
