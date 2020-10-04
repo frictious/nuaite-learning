@@ -29,6 +29,7 @@ const transport = nodemailer.createTransport({
 });
 
 //GRIDFS File db connection
+//"mongodb://localhost/njalae-learning-image" || 
 const URI = "mongodb+srv://project:project@njalae-learning-image.4xafn.mongodb.net/njalae-learning-image?retryWrites=true&w=majority";
 const conn = mongoose.createConnection(URI, {
     useNewUrlParser : true,
@@ -83,7 +84,7 @@ function isLoggedIn(req, res, next){
 const cpUpload = files.fields([{ name: 'photo', maxCount: 1 }, { name: 'activity', maxCount: 1 }]);
 
 //ROUTES
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
     res.render("admin/dashboard", {
         title : "Admin dashboard section",
         description : "Njala E-Learning Admin Dashboard Section"
@@ -93,7 +94,7 @@ router.get("/", (req, res) => {
 //REGISTRATION SECTION
 //===================================================================================
 //Student Registration Route
-router.get("/studentRegistration", (req, res) => {
+router.get("/studentRegistration", isLoggedIn, (req, res) => {
     Department.find({}, (err, departments) => {
         if(departments){//Ensuring a department exist to add a student
             Program.find({}, (err, programs) => {
@@ -249,7 +250,7 @@ router.delete("/student/:id", (req, res) => {
 });
 
 //Show all students
-router.get("/students", (req, res) => {
+router.get("/students", isLoggedIn, (req, res) => {
     User.find({
         role : "Student"
     }, (err, students) => {
@@ -264,7 +265,7 @@ router.get("/students", (req, res) => {
 });
 
 //Updating students information
-router.get("/students/:id/edit", (req, res) => {
+router.get("/students/:id/edit", isLoggedIn, (req, res) => {
     User.findOne({_id : req.params.id}, (err, student) => {
         if(student){
             res.render("admin/updateStudent", {
@@ -295,7 +296,7 @@ router.put("/students/:id/edit", (req, res) => {
 });
 
 //Admin Registration Route
-router.get("/adminRegistration", (req, res) => {
+router.get("/adminRegistration", isLoggedIn, (req, res) => {
     res.render("admin/adminRegistration", {
         title: "Registration of student and admin",
         description : "Registering both admins and or students"
@@ -336,7 +337,7 @@ router.post("/adminRegistration", (req, res) => {
 });
 
 //Show all students
-router.get("/admins", (req, res) => {
+router.get("/admins", isLoggedIn, (req, res) => {
     User.find({
         role : "Admin"
     }, (err, admins) => {
@@ -351,7 +352,7 @@ router.get("/admins", (req, res) => {
 });
 
 //Updating students information
-router.get("/admin/:id/edit", (req, res) => {
+router.get("/admin/:id/edit", isLoggedIn, (req, res) => {
     User.findOne({_id : req.params.id}, (err, admin) => {
         if(admin){
             res.render("admin/updateAdmin", {
@@ -393,7 +394,7 @@ router.delete("/admin/:id", (req, res) => {
 });
 
 //Login Route
-router.get("/login", (req, res) => {
+router.get("/login", isLoggedIn, (req, res) => {
     res.render("admin/login", {
         title : "Njala E-Learning Platform Admin Login page",
         description : "Login in to Njala E-Learning platform Admin area"
@@ -409,14 +410,14 @@ router.post("/login", (req, res, next) => {
 });
 
 //Logout Route
-router.get("/logout", (req, res) => {
+router.get("/logout", isLoggedIn, (req, res) => {
     req.logout();
     req.flash("success", "Logged you out");
     res.redirect("/admin");
 });
 
 //Reset Password Route
-router.get("/resetPassword", (req, res) => {
+router.get("/resetPassword", isLoggedIn, (req, res) => {
     res.render("admin/forgotPassword", {
         title : "Reseting Password",
         description : "Resetting the password of a user(Student / Admin)"
@@ -457,7 +458,7 @@ router.put("/resetPassword", (req, res) => {
 //===================================================================================
 
 //Department Get Form Route
-router.get("/department/add", (req, res) => {
+router.get("/department/add", isLoggedIn, (req, res) => {
     res.render("admin/addDepartment", {
         title : "Creating a department",
         description: "Creating a department and adding it to the system"
@@ -491,7 +492,7 @@ router.post("/department/add", cpUpload, (req, res) => {
 });
 
 //Department view route
-router.get("/department", (req, res) => {
+router.get("/department", isLoggedIn, (req, res) => {
     Department.find({}, (err, departments) => {
         if(departments){
             res.render("admin/department", {
@@ -506,7 +507,7 @@ router.get("/department", (req, res) => {
 });
 
 //Show Department route
-router.get("/department/:id", (req, res) => {
+router.get("/department/:id",isLoggedIn, (req, res) => {
     Department.findOne({_id : req.params.id}, (err, foundDepartment) => {
         if(foundDepartment){
             res.render("admin/showDepartment", {
@@ -521,7 +522,7 @@ router.get("/department/:id", (req, res) => {
 });
 
 //Edit Department form route
-router.get("/department/:id/edit", (req, res) => {
+router.get("/department/:id/edit", isLoggedIn, (req, res) => {
     Department.findOne({_id : req.params.id}, (err, foundDepartment) => {
         if(foundDepartment){
             res.render("admin/updateDepartment", {
@@ -571,7 +572,7 @@ router.delete("/department/:id", (req, res) => {
 
 //===================================================================================
 //Program Get Form Route
-router.get("/program/add", (req, res) => {
+router.get("/program/add", isLoggedIn, (req, res) => {
     Department.find({}, (err, department) => {
         if(department){
             res.render("admin/addProgram", {
@@ -628,7 +629,7 @@ router.post("/program/add", files.single("timetable"), (req, res) => {
 });
 
 //Program view route
-router.get("/program", (req, res) => {
+router.get("/program", isLoggedIn, (req, res) => {
     Program.find({}, (err, programs) => {
         if(programs){
             res.render("admin/program", {
@@ -643,7 +644,7 @@ router.get("/program", (req, res) => {
 });
 
 //Show Program route
-router.get("/program/:id", (req, res) => {
+router.get("/program/:id", isLoggedIn, (req, res) => {
     Program.findOne({_id : req.params.id}, (err, foundProgram) => {
         if(foundProgram){
             res.render("admin/showProgram", {
@@ -731,7 +732,7 @@ router.delete("/program/:id", (req, res) => {
 //===================================================================================
 //course Section
 //course Get Form Route
-router.get("/course/add", (req, res) => {
+router.get("/course/add", isLoggedIn, (req, res) => {
     //Searching for all programs and populating the dropdown option with the different programs
     Program.find({}, (err, programs) => {
         if(programs){
@@ -775,7 +776,7 @@ router.post("/course/add", files.single("curriculum"), (req, res) => {
 });
 
 //course view route
-router.get("/course", (req, res) => {
+router.get("/course", isLoggedIn, (req, res) => {
     Course.find({}, (err, courses) => {
         if(courses){
             res.render("admin/course", {
@@ -790,7 +791,7 @@ router.get("/course", (req, res) => {
 });
 
 //Show course route
-router.get("/course/:id", (req, res) => {
+router.get("/course/:id", isLoggedIn, (req, res) => {
     Course.findOne({_id : req.params.id}, (err, foundCourse) => {
         if(foundCourse){
             Note.find({courseName : foundCourse.courseName}, (err, notes) => {
@@ -828,7 +829,7 @@ router.get("/course/:id", (req, res) => {
 });
 
 //Course update form route
-router.get("/course/:id/edit", (req, res) => {
+router.get("/course/:id/edit", isLoggedIn, (req, res) => {
     Course.findOne({_id : req.params.id}, (err, foundCourse) => {
         if(foundCourse){
             res.render("admin/updateCourse", {
@@ -903,7 +904,7 @@ router.delete("/course/:id", (req, res) => {
 //END OF course SECTION
 //NOTES SECTION
 //ADD NOTE
-router.get("/note", (req, res) => {
+router.get("/note", isLoggedIn, (req, res) => {
     Course.find({}, (err, course) => {
         if(course){
             res.render("admin/addNote", {
@@ -949,7 +950,7 @@ router.delete("/note/:id", (req, res) => {
 
 //ASSIGNMENT SECTION
 //ADD ASSIGNMENT
-router.get("/assignment", (req, res) => {
+router.get("/assignment", isLoggedIn, (req, res) => {
     Course.find({}, (err, course) => {
         if(course){
             res.render("admin/addAssignment", {
@@ -1019,7 +1020,7 @@ router.get("/files/:filename", (req, res) => {
 })
 
 //Search form
-router.get("/search", (req, res) => {
+router.get("/search", isLoggedIn, (req, res) => {
     Department.find({}, (err, department) => {
         if(department){
             Program.find({}, (err, program) => {
@@ -1088,7 +1089,7 @@ router.post("/search", (req, res) => {
 });
 
 //Grade addition route
-router.get("/:department/:program/:semester/:year", (req, res) => {
+router.get("/:department/:program/:semester/:year", isLoggedIn, (req, res) => {
     Course.find({
         programName : req.params.program,
         semester : req.params.semester,
@@ -1104,7 +1105,7 @@ router.get("/:department/:program/:semester/:year", (req, res) => {
 //GRADE SECTION
 //===================================================================================
 //Grade Get Form Route
-router.get("/grade/add", (req, res) => {
+router.get("/grade/add", isLoggedIn, (req, res) => {
     Department.find({}, (err, departments) => {
         if(departments){
             res.render("admin/addGrade", {
@@ -1160,7 +1161,7 @@ router.get("/grade", (req, res) => {
 });
 
 //Show Grade route
-router.get("/grade/:id", (req, res) => {
+router.get("/grade/:id", isLoggedIn, (req, res) => {
     Grade.findOne({_id : req.params.id}, (err, foundGrade) => {
         if(foundGrade){
             res.render("admin/showProgram", {
@@ -1175,7 +1176,7 @@ router.get("/grade/:id", (req, res) => {
 });
 
 //Update Grade route form
-router.get("/grade/:id/edit", (req, res) => {
+router.get("/grade/:id/edit", isLoggedIn, (req, res) => {
     Grade.findOne({_id : req.params.id}, (err, foundGrade) => {
         if(foundGrade){
             res.render("admin/updateProgram", {
