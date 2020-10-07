@@ -11,15 +11,15 @@ const   express                 = require("express"),
 
 const router = express.Router();
 
-//CONFIG
 
+//CONFIG
 //Authentication checker
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
-        if(req.user.role === "Student"){
+        if(req.user.role.length === 7){
             return next();
         }else{
-            console.log("YOU'RE NOT A STUDENT");
+            res.redirect("/logout");
         }
     }else{
         res.redirect("/login");
@@ -28,8 +28,7 @@ function isLoggedIn(req, res, next){
 
 //ROUTES
 //Index Route
-router.get("/", (req, res) => {
-    console.log(req.user);
+router.get("/", isLoggedIn, (req, res) => {
     res.render("index", {
         title : "Welcome to Njala E-Learning Platform",
         description: "Njala E-Learning Platform"
@@ -53,7 +52,7 @@ router.post("/login", (req, res, next) => {
 });
 
 //Logout Route
-router.get("/logout", isLoggedIn, (req, res) => {
+router.get("/logout", (req, res) => {
     req.logOut();
     req.flash("success", "Logged you out");
     res.redirect("/");

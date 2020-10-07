@@ -69,10 +69,10 @@ const files = multer({ storage });
 //Login checker
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
-        if(req.user.role === "Admin"){
+        if(req.user.role.length === 5){
             return next();
         }else{
-            console.log("YOU'RE NOT AN ADMIN");
+            res.redirect("/admin/logout");
         }
     }else{
         res.redirect("/admin/login");
@@ -83,7 +83,7 @@ function isLoggedIn(req, res, next){
 const cpUpload = files.fields([{ name: 'photo', maxCount: 1 }, { name: 'activity', maxCount: 1 }]);
 
 //ROUTES
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
     res.render("admin/dashboard", {
         title : "Admin dashboard section",
         description : "Njala E-Learning Admin Dashboard Section"
