@@ -16,7 +16,7 @@ const   express                 = require("express"),
         multer                  = require("multer"),
         GridFsStorage           = require("multer-gridfs-storage"),
         Grid                    = require("gridfs-stream");
-const { update } = require("../models/user");
+
 const router = express.Router();
 
 //CONFIG
@@ -1098,7 +1098,7 @@ router.post("/quiz/add", files.single("quiz"), (req, res) => {
                 courseName : req.body.courseName,
                 quiz : req.file.filename,
                 year : req.body.year,
-                examYear : req.body.year
+                yearTaken : req.body.yearTaken
             }, (err, quiz) => {
                 if(quiz){
                     course.quiz.push(quiz);

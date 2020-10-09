@@ -67,12 +67,11 @@
         <p>
             The past question(s) for this course are attached below, you can easily click the name to download the question. <strong>"Knowledge of the past guides us for the future"</strong>.
             <% if(quiz.length > 0){ %>
-                <table border="1px">
+                <table border="1px" style="width:100%;">
                     <thead>
                         <tr>
                             <th>PAST QUESTION LINK</th>
-                            <th>EXAM YEAR</th>
-                            <th colspan="2">ACTION</th>
+                            <th>EXAM ACADEMIC YEAR</th>
                         </tr>
                     </thead>
 
@@ -83,10 +82,7 @@
                                     <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
                                 </td>
                                 <td>
-                                    <p><%- quiz.examYear%></p>
-                                </td>
-                                <td>
-                                    <form action="/admin/quiz/<%-quiz._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                                    <p><%- quiz.yearTaken%></p>
                                 </td>
                             </tr>
                         <%});%>
