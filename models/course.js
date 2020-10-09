@@ -1,6 +1,7 @@
 const   mongoose            = require("mongoose"),
         Assignment          = require("../models/assignment"),
         User                = require("../models/user"),
+        Quiz                = require("../models/quiz"),
         Note                = require("../models/note");
 
 const courseSchema = new mongoose.Schema({
@@ -19,6 +20,10 @@ const courseSchema = new mongoose.Schema({
     assignments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Assignment"
+    }],
+    quiz : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Quiz"
     }],
     year: Number,
     semester: String,

@@ -30,7 +30,7 @@
 
             <h1>ASSIGNMENTS</h1>
         <p>
-            The assignment(s) for this course are attached below, you can easily click the name to download the note.
+            The assignment(s) for this course are attached below, you can easily click the name to download the assignment.
             <table border="1px">
                 <thead>
                     <tr>
@@ -55,6 +55,36 @@
                             </td>
                             <td>
                                 <form action="/admin/assignment/<%-assignment._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                            </td>
+                        </tr>
+                    <%});%>
+                </tbody>
+            </table>
+        </p>
+
+        <h1>PAST QUESTIONS</h1>
+        <p>
+            The past question(s) for this course are attached below, you can easily click the name to download the question.
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>PAST QUESTION LINK</th>
+                        <th>EXAM YEAR</th>
+                        <th colspan="2">ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% quiz.forEach((quiz) => {%>
+                        <tr>
+                            <td>
+                                <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
+                            </td>
+                            <td>
+                                <p><%- quiz.examYear%></p>
+                            </td>
+                            <td>
+                                <form action="/admin/quiz/<%-quiz._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
                             </td>
                         </tr>
                     <%});%>

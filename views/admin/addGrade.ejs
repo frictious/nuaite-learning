@@ -1,0 +1,66 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <h1>FOUND THE ADD GRADES PAGE</h1>
+    <ul>
+        <% courses.forEach((course) => { %> 
+            <li><%- course.courseName %></li>
+        <% }); %>
+    </ul>
+    <form action="/admin/grade/add" method="POST" class="grade">
+        <label for="studentName" class="student">Student Name
+            <input type="text" name="studentName" id="studentName" placeholder="Student Name">
+        </label>
+        <label for="studentID" class="student">Student ID
+            <input type="number" name="studentID" id="studentID" placeholder="Studend ID">
+        </label>
+        <%// let creditHr = 0;%>
+        <% //let point = 0; %>
+        <% //courses.forEach((course) => { %> 
+        <label for="courseName">Module Name
+            <input type="text" name="courseName" id="courseName" name="course" placeholder="Module Name">
+        </label>
+        <label for="grade">Grade Earned
+            <input type="text" name="grade" placeholder="Grade Earned">
+        </label>
+            <!-- <label for="<%-//course.creditHour%>">
+                <input type="text" name="<%-// String('grade[creditHour]')%>" id="<%-// course.creditHour %>" value="<%- //course.creditHour %>" readonly>
+            </label> -->
+            <%// creditHr += course.creditHour %>
+        <label for="academicYear">Academic Year
+            <input type="text" name="academicYear" id="academicYear" placeholder="Academic Year">
+        </label>
+        <%// }); %>
+
+        <!-- If statement to add the grade point -->
+        
+        <!-- End of if statement to add the grade point -->
+        <!-- <label for="totalCreditHour">Total
+            <input type="text" name="totalCreditHour" id="totalCreditHour" placeholder="Total Credit Hour" readonly>
+        </label>
+        <label for="totalCreditHour">Total Credit Hour
+            <input type="number" name="totalCreditHour" id="totalCreditHour" value="<%- //creditHr%>" readonly>
+        </label> -->
+        <!-- <label for="programName">
+            <input type="text" name="name" placeholder="Program Name">
+        </label>
+        
+        <label for="department">Department Name</label>
+        <select name="departmentName" id="department">
+            <% //departments.forEach((department) => { %>
+                <option value="<%-// department.name %>"><%- //department.name %></option>
+            <% //}); %>
+        </select>
+        <label for="duration">
+            <input type="number" name="duration" id="duration" placeholder="Program Duration">
+        </label>
+        <label for="timetable">Timetable</label>
+        <input type="file" name="timetable" id="timetable">
+        <textarea name="description" placeholder="description"></textarea>-->
+        <button type="submit">Add Grade</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

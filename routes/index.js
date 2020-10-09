@@ -8,6 +8,7 @@ const   express                 = require("express"),
         Note                    = require("../models/note"),
         Assignment              = require("../models/assignment"),
         passport                = require("passport");
+const quiz = require("../models/quiz");
 
 const router = express.Router();
 
@@ -203,16 +204,32 @@ router.get("/course", isLoggedIn, (req, res) => {
 router.get("/course/:id", isLoggedIn, (req, res) => {
     Course.findOne({_id : req.params.id}, (err, foundCourse) => {
         if(foundCourse){
+            //Getting all the notes in this particular course
             Note.find({courseName : foundCourse.courseName}, (err, notes) => {
                 if(notes){
+                    //Getting all the assignments in this particular course
                     Assignment.find({courseName : foundCourse.courseName}, (err, assignments) => {
                         if(assignments){
-                            res.render("showCourse", {
-                                title : `Showing ${foundCourse.name}`,
-                                description: `Showing ${foundCourse.name} information`,
-                                course : foundCourse,
-                                notes : notes,
-                                assignments : assignments
+                            //Getting all the past questions in this particular course/module
+                            quiz.find({courseName : foundCourse.courseName}, (err, quiz) => {
+                                if(quiz){
+                                    res.render("showCourse", {
+                                        title : `Showing ${foundCourse.name}`,
+                                        description: `Showing ${foundCourse.name} information`,
+                                        course : foundCourse,
+                                        notes : notes,
+                                        assignments : assignments,
+                                        quiz : quiz
+                                    });
+                                }else{
+                                    res.render("showCourse", {
+                                        title : `Showing ${foundCourse.name}`,
+                                        description: `Showing ${foundCourse.name} information`,
+                                        course : foundCourse,
+                                        notes : notes,
+                                        assignments : assignments
+                                    });
+                                }
                             });
                         }else{
                             res.render("showCourse", {

@@ -18,6 +18,7 @@
         <p>
             <%- course.description %>
         </p>
+        <hr>
 
         <h1>Notes</h1>
         <p>
@@ -28,6 +29,7 @@
                 <li><a href="/admin/files/<%- note.note %>"><%- note.note %></a></li>
             <% }); %>
         </ul>
+        <hr>
 
         <h1>Assignments</h1>
         <p>
@@ -59,6 +61,40 @@
                 </tbody>
             </table>
         <% } %>
+        <hr>
+
+        <h1>PAST QUESTIONS</h1>
+        <p>
+            The past question(s) for this course are attached below, you can easily click the name to download the question. <strong>"Knowledge of the past guides us for the future"</strong>.
+            <% if(quiz.length > 0){ %>
+                <table border="1px">
+                    <thead>
+                        <tr>
+                            <th>PAST QUESTION LINK</th>
+                            <th>EXAM YEAR</th>
+                            <th colspan="2">ACTION</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% quiz.forEach((quiz) => {%>
+                            <tr>
+                                <td>
+                                    <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
+                                </td>
+                                <td>
+                                    <p><%- quiz.examYear%></p>
+                                </td>
+                                <td>
+                                    <form action="/admin/quiz/<%-quiz._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                                </td>
+                            </tr>
+                        <%});%>
+                    </tbody>
+                </table>
+            <% }%>
+        </p>
+    
     </section>
 </main>
 <!-- End of main section -->

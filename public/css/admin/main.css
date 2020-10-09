@@ -185,5 +185,29 @@ main .delete{
     padding: 2px;
     box-sizing: border-box;
 }
+
+main hr{
+    margin-bottom: 30px;
+    margin-top: 20px;
+    /* display: none; */
+}
 /* End of login section */
+
+/* Grade form */
+form.grade{
+    width: 80%;
+    /* display: grid;
+    grid-template-columns: repeat(3, 1fr); */
+}
+
+form.grade label{
+    width: 32%;
+    display: inline-block;
+}
+
+form.grade .student{
+    width: 49%;
+}
+/* End of grade form section */
+
 /* End of main section */
