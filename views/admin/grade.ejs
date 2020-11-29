@@ -14,35 +14,43 @@
         <thead>
             <tr>
                 <th>COURSE NAME</th>
-                <th>COURSE CODE</th>
                 <th>PROGRAM</th>
-                <th>DEPARTMENT</th>
+                <th>STUDENT NAME</th>
+                <th>GRADE</th>
+                <th>POINT</th>
                 <th colspan="2">ACTION</th>
             </tr>
         </thead>
 
-        <tbody>
-            <tr>
-                <td>
-                    <a href="/admin/program/"></a>
-                </td>
-                <td>
-                    <p></p>
-                </td>
-                <td>
-                    <a href="/admin/program/"></a>
-                </td>
-                <td>
-                    <p></p>
-                </td>
-                <td>
-                    <a href="/admin/program/adsdfcs/edit">EDIT</a>
-                </td>
-                <td>
-                    <form action="/admin/program/dasdfsd?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
-                </td>
-            </tr>
-        </tbody>
+        <% if(grades.length > 0){ %>
+            <tbody>
+                <% grades.forEach((grade) => { %>
+                    <tr>
+                        <td>
+                            <%- grade.moduleName%>
+                        </td>
+                        <td>
+                            <%- grade.programName %>
+                        </td>
+                        <td>
+                            <%- grade.studentName%>
+                        </td>
+                        <td>
+                            <%- grade.grade%>
+                        </td>
+                        <td>
+                            <%- grade.point%>
+                        </td>
+                        <td>
+                            <a href="/admin/grade/<%- grade._id%>/edit">EDIT</a>
+                        </td>
+                        <td>
+                            <form action="/admin/grade/<%- grade._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                        </td>
+                    </tr>
+                <%});%>
+            </tbody>
+        <% } %>
     </table>
 </main>
 <!-- End of main section -->

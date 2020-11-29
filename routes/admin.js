@@ -31,7 +31,7 @@ const transport = nodemailer.createTransport({
 });
 
 //GRIDFS File db connection
-const URI = "mongodb+srv://project:project@njalae-learning-image.4xafn.mongodb.net/njalae-learning-image?retryWrites=true&w=majority";
+const URI = /*"mongodb://localhost/njalae-learning-image" /|| */"mongodb+srv://project:project@njalae-learning-image.4xafn.mongodb.net/njalae-learning-image?retryWrites=true&w=majority";
 const conn = mongoose.createConnection(URI, {
     useNewUrlParser : true,
     useUnifiedTopology : true
@@ -1122,15 +1122,6 @@ router.delete("/quiz/:id", (req, res) => {
 });
 //===================================================================================
 
-//Files
-// router.get("/files", (req, res) => {
-//     gfs.files.find().toArray((err, allFiles) => {
-//         if(allFiles){
-//             res.json(allFiles);
-//         }
-//     });
-// });
-
 //Getting the files
 router.get("/files/:filename", (req, res) => {
     gfs.files.findOne({filename : req.params.filename}, (err, foundFiles) => {
@@ -1143,6 +1134,8 @@ router.get("/files/:filename", (req, res) => {
     });
 })
 
+//GRADE SECTION
+//===================================================================================
 //Search form
 router.get("/search", (req, res) => {
     Department.find({}, (err, department) => {
@@ -1192,8 +1185,17 @@ router.post("/search", (req, res) => {
                     if(program.departmentName === department.name){
                         Course.find({programName : program.name}, (err, course) => {
                             if(course){
-                                res.redirect(`/admin/${req.body.department}/${req.body.program}/${req.body.semester}/${req.body.year}`);
-                                //res.send("GRADE INPUT BOXES CAN BE AUTOFILLED AS PREDICTED");
+                                User.findOne({
+                                    studentID : req.body.studentID
+                                }, (err, student) => {
+                                    if(student){
+                                        res.redirect(`/admin/${req.body.department}/${req.body.program}/${req.body.semester}/${req.body.studentID}/${req.body.year}`);
+                                        //res.send("GRADE INPUT BOXES CAN BE AUTOFILLED AS PREDICTED");
+                                    }else{
+                                        req.flash("error", "Student Does Not Exist");
+                                        res.redirect("back");
+                                    }
+                                });
                             }
                         });
                     }else{
@@ -1210,89 +1212,96 @@ router.post("/search", (req, res) => {
 });
 
 //Grade addition route
-router.get("/:department/:program/:semester/:year", (req, res) => {
-    Course.find({
-        programName : req.params.program,
-        semester : req.params.semester,
-        year : req.params.year
-    }, (err, courses) => {
-        if(courses){
-            res.render("admin/addGrade", {
-                title : "Add grades for a student",
-                description : "Add individual grades for students",
-                courses : courses
-            });
-            // res.json(courses);
-        }else{
-            console.log("NO COURSE FOUND");
-            res.redirect("back");
-        }
-    });
-    // res.send("THIS WILL DEFINITELY WORK");
-});
-
-router.post("/grade/add", (req, res) => {
-    Grade.create({
-        programName: req.params.program,
-        studentID: req.body.studentID,
-        studentName : req.body.studentName,
-        year: req.params.year,
-        semester: req.params.semester,
-        academicYear : req.body.academicYear,
-        sgpa: req.body.sgpa,
-        cgpa: req.body.cgpa,
-        remarks: req.body.remarks
-    }, (err, grade) => {
-        if(grade){
-            // console.log(grade);
-            // console.log(req.body.grade);
-            // grade.firstSemesterCourses.push(String(req.body.grade));
-            // grade.save();
-            console.log("GRADES ADDED SUCCESSFULLY");
-            res.redirect("back");
-        }
-    });
-});
-
-//GRADE SECTION
-//===================================================================================
-//Grade Get Form Route
-router.get("/grade/add", (req, res) => {
-    Department.find({}, (err, departments) => {
-        if(departments){
-            res.render("admin/addGrade", {
-                title : "Adding a student's Grade",
-                description: "Add student grades to the system",
-                departments : departments
-            });
-        }
-    });
-});
-
-//Grade add logic route
-router.post("/grade/add", files.single("timetable"), (req, res) => {
-    console.log(req.file);
-    Grade.create({
-        programName : req.body.programName,
-        studentID : req.body.studentID,
-        year : req.body.year,
-        semester : req.body.semester,
-        gpa : req.body.gpa,
-        cgpa : req.body.cgpa,
-        remarks : req.body.remarks
-    }, (err, grade) => {
-        if(grade){
-            Program.findOne({name : req.body.departmentName}, (err, foundDepartment) => {
-                if(foundDepartment){
-                    foundDepartment.programs.push(program);//Adding the newly created program to a department
-                    foundDepartment.save();//Saving the new addition
-                    res.redirect("/admin/program/add");
-                }else{
-                    console.log(err);
+router.get("/:department/:program/:semester/:studentID/:year", (req, res) => {
+    Department.findOne({name : req.params.department}, (err, department) => {
+        if(department){
+            Program.findOne({name : req.params.program}, (err, program) => {
+                if(program) {
+                    Course.find({
+                        programName : req.params.program,
+                        year : req.params.year
+                    }, (err, courses) => {
+                        if(courses){
+                            User.findOne({studentID : req.params.studentID}, (err, student) => {
+                                if(student){
+                                    res.render("admin/addGrade", {
+                                        title : "Add grades for a student",
+                                        description : "Add individual grades for students",
+                                        courses : courses,
+                                        student : student,
+                                        department : department,
+                                        program : program
+                                    });
+                                    // res.json(courses);
+                                }
+                            });
+                        }else{
+                            console.log("NO COURSE FOUND");
+                            res.redirect("back");
+                        }
+                    });
+                    // res.send("THIS WILL DEFINITELY WORK");
+                
                 }
             });
+        }
+    });
+
+});
+
+router.post("/:department/:program/:studentID/:year", (req, res) => {
+    let gradePoint = 0;
+    Grade.findOne({
+        studentID : req.params.studentID,
+        moduleName : req.body.courseName,
+        academicYear : req.body.academicYear
+    }, (err, gradeFound) => {
+        if(gradeFound){
+            req.flash("error", "GRADE HAS ALREADY BEEN ENTERED FOR THIS MODULE");
+            res.redirect("back");
         }else{
-            console.log(err);
+            Course.findOne({
+                courseName : req.body.courseName,
+                year : req.params.year
+            }, (err, course) => {
+                if(course){
+                    if(req.body.grade === "A"){
+                        gradePoint = 5
+                    }else if(req.body.grade === "B"){
+                        gradePoint = 4
+                    }else if(req.body.grade === "C"){
+                        gradePoint = 3
+                    }else if(req.body.grade === "D"){
+                        gradePoint = 2
+                    }else if(req.body.grade === "E"){
+                        gradePoint = 1
+                    }else if(req.body.grade === "F"){
+                        gradePoint = 0
+                    }
+                    Grade.create({
+                        programName: req.params.program,
+                        studentID: req.params.studentID,
+                        studentName : req.body.studentName,
+                        year: req.params.year,
+                        semester: req.body.semester,
+                        academicYear : req.body.academicYear,
+                        moduleName : req.body.courseName,
+                        grade : req.body.grade,
+                        point : gradePoint,
+                        creditHour : course.creditHour
+                        // remarks: req.body.remarks
+                    }, (err, grade) => {
+                        if(grade){
+                            req.flash("success", "GRADE ADDED SUCCESSFULLY");
+                            res.redirect("back");
+                        }else{
+                            req.flash("error", "GRADE COULD NOT BE ADDED");
+                            res.redirect("back");
+                        }
+                    });
+                
+                }
+            })
         }
     });
 });
@@ -1312,27 +1321,12 @@ router.get("/grade", (req, res) => {
     });
 });
 
-//Show Grade route
-router.get("/grade/:id", (req, res) => {
-    Grade.findOne({_id : req.params.id}, (err, foundGrade) => {
-        if(foundGrade){
-            res.render("admin/showProgram", {
-                title : `Showing ${foundGrade.name}`,
-                description: `Showing ${foundGrade.name} information`,
-                grades : foundGrade
-            });
-        }else{
-            console.log(err);
-        }
-    });
-});
-
 //Update Grade route form
 router.get("/grade/:id/edit", (req, res) => {
     Grade.findOne({_id : req.params.id}, (err, foundGrade) => {
         if(foundGrade){
-            res.render("admin/updateProgram", {
-                title : `Showing ${foundGrade.name}`,
+            res.render("admin/updateGrade", {
+                title : `Showing ${foundGrade.studentName} ${foundGrade.moduleName} Grade`,
                 description: `Showing ${foundGrade.name} information`,
                 grade : foundGrade
             });
@@ -1344,18 +1338,31 @@ router.get("/grade/:id/edit", (req, res) => {
 
 //Grade update route
 router.put("/grade/:id/edit", (req, res) => {
+    let gradePoint = 0
+    if(req.body.grade === "A"){
+        gradePoint = 5
+    }else if(req.body.grade === "B"){
+        gradePoint = 4
+    }else if(req.body.grade === "C"){
+        gradePoint = 3
+    }else if(req.body.grade === "D"){
+        gradePoint = 2
+    }else if(req.body.grade === "E"){
+        gradePoint = 1
+    }else if(req.body.grade === "F"){
+        gradePoint = 0
+    }
     Grade.updateOne({_id : req.params.id}, {
-        name : req.body.name,
-        duration : req.body.duration,
-        departmentName: req.body.departmentName,
-        // timetable : req.file.filename
-    }, (err, updatedProgram) => {
-        if(updatedProgram){
-            console.log("PROGRAM INFORMATION UPDATED");
-            res.redirect(`/admin/department/${updatedProgram._id}`);
+        grade : req.body.grade,
+        point : gradePoint,
+        semester : req.body.semester
+    }, (err, updatedGrade) => {
+        if(updatedGrade){
+            req.flash("success", "STUDENT GRADE UPDATED");
+            res.redirect(`/admin/grade`);
         }else{
-            console.log(err);
-            res.redirect("/department");
+            req.flash("err", "CANNOT UPDATE GRADE");
+            res.redirect("/admin/grade");
         }
     })
 });

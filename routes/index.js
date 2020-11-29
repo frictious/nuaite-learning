@@ -53,14 +53,14 @@ router.post("/login", (req, res, next) => {
 });
 
 //Logout Route
-router.get("/logout", (req, res) => {
+router.get("/logout", isLoggedIn, (req, res) => {
     req.logOut();
     req.flash("success", "Logged you out");
     res.redirect("/");
 });
 
 //Reset Password Route
-router.get("/resetPassword", (req, res) => {
+router.get("/resetPassword", isLoggedIn, (req, res) => {
     res.render("forgotPassword", {
         title : "Reset Student Password",
         description : "Resetting the password of a student"
@@ -103,12 +103,12 @@ router.get("/department", isLoggedIn, (req, res) => {
         email: req.user.email
     }, (err, userDepartment) => {
         if(userDepartment){
-            Department.find({name : userDepartment.department}, (err, departments) => {
-                if(departments){
+            Department.findOne({name : userDepartment.department}, (err, department) => {
+                if(department){
                     res.render("department", {
                         title : "E-Learning Platform Departmental page",
                         description : "Njala Department",
-                        departments : departments
+                        department : department
                     });
                 }else{
                     console.log(err);
@@ -255,22 +255,27 @@ router.get("/course/:id", isLoggedIn, (req, res) => {
 });
 
 //Getting the files
-router.get("/files/:filename", (req, res) => {
-    gfs.files.findOne({filename : req.params.filename}, (err, foundFiles) => {
-        if(foundFiles){
-            const readstream = gfs.createReadStream(foundFiles.filename);
-            readstream.pipe(res);
-        }else{
-            console.log(err);
-        }
-    });
-})
+// router.get("/files/:filename", (req, res) => {
+//     gfs.files.findOne({filename : req.params.filename}, (err, foundFiles) => {
+//         if(foundFiles){
+//             const readstream = gfs.createReadStream(foundFiles.filename);
+//             readstream.pipe(res);
+//         }else{
+//             console.log(err);
+//         }
+//     });
+// })
 
 //Grade Route
 router.get("/grades", isLoggedIn, (req, res) => {
-    res.render("grades", {
-        title : "Student Grades Section",
-        description : "Njala E-Learning Platform Grades Section"
+    Grade.find({studentID : req.user.studentID}, (err, grades) => {
+        if(grades){
+            res.render("grades", {
+                title : "Student Grades Section",
+                description : "Njala E-Learning Platform Grades Section",
+                grades : grades
+            });
+        }
     });
 });
 
@@ -279,6 +284,40 @@ router.get("/about", (req, res) => {
     res.render("about", {
         title : "About Njala E-Learning Platform",
         description : "About Njala E-Learning platform"
+    });
+});
+
+//Grades Search Logic
+router.post("/grades/search", (req, res) => {
+    if(req.body.academicYear !== ""){
+        User.findOne({_id : req.user._id}, (err, user) => {
+            if(user){
+                Grade.find({
+                    academicYear : req.body.academicYear,
+                    studentID : user.studentID
+                }, (err, grades) => {
+                    if(grades){
+                        res.redirect(`/student/grades/${req.body.academicYear}`);
+                    }else{
+                        req.flash("error", "NO GRADES FOUND");
+                        res.redirect("back");
+                    }
+                });
+            }
+        });
+    }
+});
+
+//Grades Search Route
+router.get("/student/grades/:academicYearFirst/:academicYearLast", (req, res) => {
+    Grade.find({academicYear : `${req.params.academicYearFirst}/${req.params.academicYearLast}`}, (err, grades) => {
+        if(grades){
+            res.render("studentGrades", {
+                grades : grades,
+                title : `Showing Student Grades for ${grades.academicYear}`,
+                description : "Showing the grades for a particular academic year"
+            });
+        }
     });
 });
 

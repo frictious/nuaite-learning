@@ -2,15 +2,13 @@
 
 <!-- Background Image -->
 <section class="bg-image">    
-    <img src="/file/<%- departments.photo %>" alt="Departmental Logo">
+    <img src="/admin/files/<%- department.photo %>" alt="Departmental Logo">
 </section>
 <!-- End of background image -->
 
 <!-- main section -->
 <main>
-    <% departments.forEach((department) => { %>
-        <h1><%- department.name %></h1>
-    <% }); %>
+    <h1><%- department.name %></h1>
 
     <section>
         <p>
@@ -21,16 +19,12 @@
         </p>
 
         <p>
-            <% departments.forEach((department) => { %>
-                <a href="/file/<%- department.activities %>"><%- department.activities %></a>
-            <% }); %>
+            <a href="/file/<%- department.activities %>"><%- department.activities %></a>
         </p>
 
         <h2>DEPARTMENT DESCRIPTION</h2>
         <p>
-            <% departments.forEach((department) => { %>
-                <%- department.description %>
-            <%});%>
+            <%- department.description %>
         </p>
     </section>
 </main>
