@@ -17,6 +17,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 
+global.Promise = mongoose.Promise
 mongoose.connect(process.env.MONGODB, {
     useUnifiedTopology: true,
     useNewUrlParser : true

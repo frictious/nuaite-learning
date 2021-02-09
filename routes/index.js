@@ -6,9 +6,9 @@ const   express                 = require("express"),
         Course                  = require("../models/course"),
         Grade                   = require("../models/grade"),
         Note                    = require("../models/note"),
+        Quiz                    = require("../models/quiz"),
         Assignment              = require("../models/assignment"),
         passport                = require("passport");
-const quiz = require("../models/quiz");
 
 const router = express.Router();
 
@@ -211,7 +211,7 @@ router.get("/course/:id", isLoggedIn, (req, res) => {
                     Assignment.find({courseName : foundCourse.courseName}, (err, assignments) => {
                         if(assignments){
                             //Getting all the past questions in this particular course/module
-                            quiz.find({courseName : foundCourse.courseName}, (err, quiz) => {
+                            Quiz.find({courseName : foundCourse.courseName}, (err, quiz) => {
                                 if(quiz){
                                     res.render("showCourse", {
                                         title : `Showing ${foundCourse.name}`,
