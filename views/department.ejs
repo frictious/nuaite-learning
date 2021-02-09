@@ -1,0 +1,33 @@
+<%- include("partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">    
+    <img src="/admin/files/<%- department.photo %>" alt="Departmental Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- department.name %></h1>
+
+    <section>
+        <p>
+            The departmental activities calendar gives an account of all the activities that will be carried out in the department for that particular academic year.
+        </p>
+        <p>
+            Students are therefore advised to download the activities calendar file and go through it in order to know the different activities that they will be carried out in his/her department.
+        </p>
+
+        <p>
+            <a href="/file/<%- department.activities %>"><%- department.activities %></a>
+        </p>
+
+        <h2>DEPARTMENT DESCRIPTION</h2>
+        <p>
+            <%- department.description %>
+        </p>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

@@ -1,0 +1,39 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <!--Student Registration Form-->
+    <form action="/admin/student/<%- student._id %>/edit?_method=PUT" method="post">
+        <h1>UPDATE STUDENT INFO</h1>
+        <label for="name">Student Name
+            <input type="text" name="name" value="<%- student.name%>" id="name">
+        </label>
+
+        <label for="studentID">Student ID
+            <input type="number" name="studentID" id="studentID" value="<%- student.studentID%>">
+        </label>
+        <label for="email">Email
+            <input type="email" name="email" id="email" value="<%- student.email%>">
+        </label>
+        <!-- <label for="department">Student Department</label>
+        <select name="department" id="department">
+            <% //departments.forEach((department) => { %>
+                <option value="<%-// department.name %>"><%-// department.name %></option>
+            <%//});%>
+        </select>
+
+        <label for="program">Student Program</label>
+        <select name="program" id="program">program
+            <% //programs.forEach((program) => { %>
+                <option value="<%- //program.name %>"><%-// program.name %></option>
+            <%// }); %>
+        </select> -->
+        <label for="year">Year
+            <input type="number" name="year" value="<%- student.year %>" id="year">
+        </label>
+        <button type="submit">Update Student Info</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

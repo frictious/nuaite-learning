@@ -1,0 +1,58 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>GRADE SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>COURSE NAME</th>
+                <th>PROGRAM</th>
+                <th>STUDENT NAME</th>
+                <th>GRADE</th>
+                <th>POINT</th>
+                <th colspan="2">ACTION</th>
+            </tr>
+        </thead>
+
+        <% if(grades.length > 0){ %>
+            <tbody>
+                <% grades.forEach((grade) => { %>
+                    <tr>
+                        <td>
+                            <%- grade.moduleName%>
+                        </td>
+                        <td>
+                            <%- grade.programName %>
+                        </td>
+                        <td>
+                            <%- grade.studentName%>
+                        </td>
+                        <td>
+                            <%- grade.grade%>
+                        </td>
+                        <td>
+                            <%- grade.point%>
+                        </td>
+                        <td>
+                            <a href="/admin/grade/<%- grade._id%>/edit">EDIT</a>
+                        </td>
+                        <td>
+                            <form action="/admin/grade/<%- grade._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                        </td>
+                    </tr>
+                <%});%>
+            </tbody>
+        <% } %>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

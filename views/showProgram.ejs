@@ -1,0 +1,29 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-3.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- program.name %></h1>
+
+    <h3>Belongs to: <%- program.departmentName %> Department</h3>
+
+    <section>
+        <h4>Description:</h4>
+        <p>
+            <%- program.description %>
+        </p>
+
+        <p>
+            The timetable for this program is attached below, you can easily click the download button to get it it.
+            <a href="/admin/files/<%- program.timetable %>">Click to download</a>
+        </p>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

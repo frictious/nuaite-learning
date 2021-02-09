@@ -1,0 +1,26 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/assignment/add" method="POST" enctype="multipart/form-data">
+        <select name="courseName" id="courseName">
+            <% course.forEach((course) => {%> 
+                <option value="<%- course.courseName %>"><%- course.courseName %></option>
+            <%});%>
+        </select>
+        <label for="assignment">Assignment File
+            <input type="file" name="assignment" id="assignment">
+        </label>
+        <label for="year">
+            <input type="number" name="year" placeholder="Course Year" id="year">
+        </label>
+        <label for="submission">
+            <input type="date" name="submissionDate" placeholder="Submission Date" id="submission">
+        </label>
+        <textarea name="instructions" placeholder="Instructions"></textarea>
+        <button type="submit">Add Assignment</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

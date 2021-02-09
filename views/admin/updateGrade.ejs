@@ -1,0 +1,31 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <h1>UPDATE <%-grade.studentName%> GRADE</h1>
+    <form class="grade" action="/admin/grade/<%-grade._id%>/edit?_method=PUT" method="POST">
+        <label for="studentName" class="student">Student Name
+            <input type="text" name="studentName" id="studentName" value="<%- grade.studentName %>" readonly>
+        </label>
+        <label for="studentID" class="student">Student ID
+            <input type="number" name="studentID" id="studentID" placeholder="<%- grade.studentID %>" readonly>
+        </label>
+        <select name="semester">
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+        </select>
+        <label for="courseName">Module Name
+            <input type="text" name="courseName" id="courseName" name="course" value="<%- grade.moduleName%>">
+        </label>
+        <label for="grade">Grade
+            <input type="text" name="grade" value="<%- grade.grade %>">
+        </label>
+        <label for="academicYear">Academic Year
+            <input type="text" name="academicYear" id="academicYear" value="<%- grade.academicYear %>" readonly>
+        </label>
+        <button type="submit">Update Grade</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

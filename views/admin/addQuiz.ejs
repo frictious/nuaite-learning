@@ -1,0 +1,25 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/quiz/add" method="POST" enctype="multipart/form-data">
+        <select name="courseName" id="courseName">
+            <% course.forEach((course) => {%> 
+                <option value="<%- course.courseName %>"><%- course.courseName %></option>
+            <%});%>
+        </select>
+        <label for="quiz">Past Question File
+            <input type="file" name="quiz" id="quiz">
+        </label>
+        <label for="year">Course Year
+            <input type="number" name="year" placeholder="Program Year" id="year">
+        </label>
+        <label for="examYear">Exam Year
+            <input type="text" name="yearTaken" placeholder="Exam Academic Year" id="yearTaken">
+        </label>
+        <button type="submit">Add Question</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

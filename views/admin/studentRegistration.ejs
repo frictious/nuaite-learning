@@ -1,0 +1,46 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <!--Student Registration Form-->
+    <form action="/admin/studentRegistration" method="post">
+        <h1>STUDENT REGISTRATION</h1>
+        <label for="name">
+            <input type="text" name="name" placeholder="Full name" id="name">
+        </label>
+
+        <label for="studentID">
+            <input type="number" name="studentID" id="studentID" placeholder="Student ID">
+        </label>
+        <label for="email">
+            <input type="email" name="email" id="email" placeholder="Email">
+        </label>
+        <label for="password">
+            <input type="password" name="password" id="password" placeholder="Password">
+        </label>
+        <label for="repassword">
+            <input type="password" name="repassword" id="repassword" placeholder="Retype Password">
+        </label>
+
+        <label for="department">Student Department</label>
+        <select name="department" id="department">
+            <% departments.forEach((department) => { %>
+                <option value="<%- department.name %>"><%- department.name %></option>
+            <%});%>
+        </select>
+
+        <label for="program">Student Program</label>
+        <select name="program" id="program">program
+            <% programs.forEach((program) => { %>
+                <option value="<%- program.name %>"><%- program.name %></option>
+            <% }); %>
+        </select>
+        <label for="year">
+            <input type="number" name="year" placeholder="Student Year" id="year" no-controls>
+        </label>
+        <button type="submit">Create Account</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

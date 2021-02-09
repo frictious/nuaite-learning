@@ -1,0 +1,38 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/course/add" method="POST" enctype="multipart/form-data">
+        <label for="name">
+            <input type="text" name="name" placeholder="Course name" id="name">
+        </label>
+        <label for="courseCode">
+            <input type="text" name="courseCode" placeholder="Course Code" id="courseCode">
+        </label>
+        <label for="creditHour">
+            <input type="number" name="creditHour" placeholder="Credit Hour" id="creditHour">
+        </label>
+        <select name="programName" id="programName">
+            <% programs.forEach((program) => {%> 
+                <option value="<%- program.name %>"><%- program.name %></option>
+            <%});%>
+        </select>
+        <label for="curriculum">Curriculum
+            <input type="file" name="curriculum" id="curriculum" required>
+        </label>
+        <label for="year">
+            <input type="text" name="year" placeholder="Program Year" id="year">
+        </label>
+        <select name="semester" id="semester">
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+        </select>
+        <label for="lecturer">
+            <input type="text" name="lecturer" placeholder="Lecturer Name" id="lecturer">
+        </label>
+        <button type="submit">Create Course</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

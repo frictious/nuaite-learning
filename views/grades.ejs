@@ -1,0 +1,64 @@
+<%- include("partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="images/nuaits.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- user.name%></h1>
+
+    <section>
+        <p>
+            Using our system, students can see their grades per academic year. This is so they will be able to know how their stand in the course. If attention is needed in any area of their program.
+        </p>
+
+        <p>
+            This will also help students that have issues in certain modules to know ahead of time. In doing so, they will not be moving blindly in their course, or have to face the embarrassment of being sent out of an exam hall in their final year because of grade issue in a previous year.
+        </p>
+
+        <form action="/grades/search" method="POST" class="center">
+            <label for="academicYear">
+                <input type="text" name="academicYear" id="academicYear" placeholder="Academic Year (YYYY/YYYY)">
+            </label>
+            <button type="submit">Search</button>
+        </form>
+        <% if(grades.length > 0) { %> 
+            <table border="1px" style="width: 100%;">
+                <caption><h1>GRADE</h1></caption>
+                <thead>
+                    <tr>
+                        <th>MODULE NAME</th>
+                        <th>YEAR</th>
+                        <th>GRADE LETTER</th>
+                        <th>SEMESTER</th>
+                        <th>ACADEMIC YEAR</th>
+                        <!--<th>S.G.P.A</th>
+                        <th>C.G.P.A</th>
+                        <th>REMARKS</th>-->
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% grades.forEach((grade) => { %>
+                        <tr>
+                            <td><%- grade.moduleName %></td>
+                            <td>Year <%- grade.year%></td>
+                            <td><%- grade.grade %></td>
+                            <td><%- grade.semester %></td>
+                            <td><%- grade.academicYear %></td>
+                            <!--<td>3.98</td>
+                            <td>4.79</td>
+                            <td>Deans List</td>-->
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table> 
+        <% } %>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

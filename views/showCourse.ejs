@@ -1,0 +1,98 @@
+<%- include("partials/idHeader")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-3.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- course.courseName %></h1>
+
+    <h3>Belongs to: <%- course.programName %> Program</h3>
+    <h4>Credit Hour: <%- course.creditHour %></h4>
+    <h4>Lecturer: <%- course.lecturer %></h4>
+
+    <section>
+        <p>
+            <%- course.description %>
+        </p>
+        <hr>
+
+        <h1>Notes</h1>
+        <p>
+            The notes below are for individual modules. You are expected to download them for your classes. Click the download link to download the note(s) for each module
+        </p>
+        <ul>
+            <% notes.forEach((note) => { %>
+                <li><a href="/admin/files/<%- note.note %>"><%- note.note %></a></li>
+            <% }); %>
+        </ul>
+        <hr>
+
+        <h1>Assignments</h1>
+        <p>
+            The assignment(s) below is/are for this module. You are expected to follow the instructions, download them for your different classes, and submit them against the stipulated submission date. Click the download link to download the note(s) for each module
+        </p>
+        <% if(assignments.length > 0){%>
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>ASSIGNMENT LINK</th>
+                        <th>INSTRUCTIONS</th>
+                        <th>SUBMISSION DATE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% assignments.forEach((assignment) => {%>
+                        <tr>
+                            <td>
+                                <a href="/admin/files/<%- assignment.assignment %>"><%- assignment.assignment %></a>
+                            </td>
+                            <td>
+                                <p><%- assignment.instructions%></p>
+                            </td>
+                            <td>
+                                <p><%- assignment.submissionDate.toLocaleString() %></p>
+                            </td>
+                        </tr>
+                    <%});%>
+                </tbody>
+            </table>
+        <% } %>
+        <hr>
+
+        <h1>PAST QUESTIONS</h1>
+        <p>
+            The past question(s) for this course are attached below, you can easily click the name to download the question. <strong>"Knowledge of the past guides us for the future"</strong>.
+            <% if(quiz.length > 0){ %>
+                <table border="1px" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>PAST QUESTION LINK</th>
+                            <th>EXAM ACADEMIC YEAR</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% quiz.forEach((quiz) => {%>
+                            <tr>
+                                <td>
+                                    <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
+                                </td>
+                                <td>
+                                    <p><%- quiz.yearTaken%></p>
+                                </td>
+                            </tr>
+                        <%});%>
+                    </tbody>
+                </table>
+            <% }%>
+        </p>
+    
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

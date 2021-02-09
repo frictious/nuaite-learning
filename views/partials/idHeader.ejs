@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%- description%>">
+    <meta name="author" content="Final Year Njala CS Students">
+    <link rel="shortcut icon" href="/images/favicon/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/index.css" type="text/css">
+    <link rel="stylesheet" href="/css/slick.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/screen.css" type="text/css">
+    <title><%- title %></title>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Heading and logo section -->
+        <section class="brand">
+            <img src="/images/nuaits.jpg" alt="NUAITS Logo">
+        </section>
+        <!-- End of heading section -->
+    </header>
+    <!-- End of header section -->
+
+    <!-- Hamburger button -->
+    <div class="hamburger">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+    </div>
+    <!-- End of Hamburger button -->
+
+    <!-- Navigation section -->
+    <nav>
+        <ul>
+            <li><a href="/about">About</a></li>
+            <li><a href="/department">Department</a></li>
+            <li><a href="/program">Program</a></li>
+            <li><a href="/grades">Grades</a></li>
+            <% if(!user){ %>
+                <li><a href="/login">Login</a></li>
+            <% } else { %>
+                <li><a href="/logout">Logout</a></li>
+            <% } %>
+        </ul>
+    </nav>
+    <!-- End of navigation section -->

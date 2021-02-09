@@ -1,0 +1,26 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/department/<%-department._id%>/edit?_method=PUT" method="POST">
+        <label for="department">
+            <input type="text" name="name" id="department" value="<%-department.name%>">
+        </label>
+        <label for="hodName">
+            <input type="text" name="HODName" id="hodName" value="<%-department.HODName%>">
+        </label>
+        <label for="deanName">
+            <input type="text" name="deanName" id="deanName" value="<%-department.DeanName%>">
+        </label>
+        <textarea name="desc" placeholder="Description"><%-department.description%></textarea>
+        <button type="submit">Update Department</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<!--CKEDITOR Section-->
+<script type="text/javascript">
+    CKEDITOR.replace('desc');
+</script>
+
+<%- include("partials/footer")%>

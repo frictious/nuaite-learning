@@ -1,0 +1,98 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-3.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- course.courseName %></h1>
+
+    <h3>Belongs to: <%- course.programName %> Program</h3>
+    <h4>Credit Hour: <%- course.creditHour %></h4>
+
+    <section>
+        <p>
+            <%- course.description %>
+        </p>
+
+        <h1>NOTES</h1>
+        <p>
+            The note(s) for this course are attached below, you can easily click the name to download the note.
+            <ul>
+                <% notes.forEach((note) => { %>
+                    <li><a href="/admin/files/<%- note.note %>"><%- note.note %></a></li>
+                <% }); %>
+            </ul>
+        </p>
+
+            <h1>ASSIGNMENTS</h1>
+        <p>
+            The assignment(s) for this course are attached below, you can easily click the name to download the assignment.
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>ASSIGNMENT LINK</th>
+                        <th>INSTRUCTIONS</th>
+                        <th>SUBMISSION DATE</th>
+                        <th colspan="2">ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% assignments.forEach((assignment) => {%>
+                        <tr>
+                            <td>
+                                <a href="/admin/files/<%- assignment.assignment %>"><%- assignment.assignment %></a>
+                            </td>
+                            <td>
+                                <p><%- assignment.instructions%></p>
+                            </td>
+                            <td>
+                                <p><%- assignment.submissionDate.toLocaleString() %></p>
+                            </td>
+                            <td>
+                                <form action="/admin/assignment/<%-assignment._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                            </td>
+                        </tr>
+                    <%});%>
+                </tbody>
+            </table>
+        </p>
+
+        <h1>PAST QUESTIONS</h1>
+        <p>
+            The past question(s) for this course are attached below, you can easily click the name to download the question.
+            <table border="1px">
+                <thead>
+                    <tr>
+                        <th>PAST QUESTION LINK</th>
+                        <th>EXAM YEAR</th>
+                        <th colspan="2">ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% quiz.forEach((quiz) => {%>
+                        <tr>
+                            <td>
+                                <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
+                            </td>
+                            <td>
+                                <p><%- quiz.examYear%></p>
+                            </td>
+                            <td>
+                                <form action="/admin/quiz/<%-quiz._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                            </td>
+                        </tr>
+                    <%});%>
+                </tbody>
+            </table>
+        </p>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

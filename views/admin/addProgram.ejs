@@ -1,0 +1,27 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/program/add" method="POST" enctype="multipart/form-data">
+        <label for="programName">
+            <input type="text" name="name" placeholder="Program Name">
+        </label>
+        
+        <label for="department">Department Name</label>
+        <select name="departmentName" id="department">
+            <% departments.forEach((department) => { %>
+                <option value="<%- department.name %>"><%- department.name %></option>
+            <% }); %>
+        </select>
+        <label for="duration">
+            <input type="number" name="duration" id="duration" placeholder="Program Duration">
+        </label>
+        <label for="timetable">Timetable</label>
+        <input type="file" name="timetable" id="timetable">
+        <textarea name="description" placeholder="description"></textarea>
+        <button type="submit">Create Program</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

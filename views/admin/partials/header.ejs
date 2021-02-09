@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%- description%>">
+    <meta name="author" content="Final Year Njala CS Students">
+    <link rel="shortcut icon" href="/images/favicon/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/admin/index.css" type="text/css">
+    <link rel="stylesheet" href="/css/admin/slick.css" type="text/css">
+    <link rel="stylesheet" href="/css/admin/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/admin/screen.css" type="text/css">
+    <title><%- title %></title>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Heading and logo section -->
+        <section class="brand">
+            <a href="/admin"><img src="/images/nuaits.jpg" alt="NUAITS Logo"></a>
+        </section>
+        <!-- End of heading section -->
+    </header>
+    <!-- End of header section -->
+
+    <!-- Hamburger button -->
+    <div class="hamburger">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+    </div>
+    <!-- End of Hamburger button -->
+
+    <!-- Navigation section -->
+    <nav>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Student</a>
+                <ul>
+                    <li><a href="/admin/studentRegistration">Add Student</a></li>
+                    <li><a href="/admin/students">Students</a></li>
+                    <li><a href="/admin/resetPassword">Password</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Admin</a>
+                <ul>
+                    <li><a href="/admin/adminRegistration">Add Admin</a></li>
+                    <li><a href="/admin/admins">Admin</a></li>
+                    <li><a href="/admin/resetPassword">Password</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Department</a>
+                <ul>
+                    <li><a href="/admin/department/add">Add Department</a></li>
+                    <li><a href="/admin/department">Departments</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Program</a>
+                <ul>
+                    <li><a href="/admin/program/add">Add Program</a></li>
+                    <li><a href="/admin/program">Programs</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Grades</a>
+                <ul>
+                    <li><a href="/admin/search">Search</a></li>
+                    <li><a href="/admin/grade">Grades</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Module</a>
+                <ul>
+                    <li><a href="/admin/course/add">Add Module</a></li>
+                    <li><a href="/admin/course">Module</a></li>
+                    <li><a href="/admin/note">Add Note</a></li>
+                    <!-- <li><a href="/admin/note">Note</a></li> -->
+                    <li><a href="/admin/assignment">Add Assignment</a></li>
+                    <!-- <li><a href="/admin/assignment">Assignment</a></li> -->
+                    <li><a href="/admin/quiz">Add Past Question</a></li>
+                </ul>
+            </li>
+            <% if(!user){ %>
+                <li><a href="/admin/login">Login</a></li>
+            <% } else { %> 
+                <li>
+                    <a href="#">Admin</a>
+                    <ul>
+                        <li><a href="/admin/resetPassword">Password</a></li>
+                        <li><a href="/admin/logout">Logout</a></li>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+    <!-- End of navigation section -->
+
+    <!-- flash section -->
+    <% if(success && success.length > 0){ %> 
+        <div class="success-flash" role="alert">
+            <%- success %>
+        </div>
+    <% } %>
+    <% if(error && error.length > 0){ %> 
+        <div class="error-flash" role="alert">
+            <%- error %>
+        </div>
+    <% } %>
+    <!-- End of flash section -->

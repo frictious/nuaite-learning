@@ -1,0 +1,19 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/program/<%- program._id %>/edit?_method=PUT" method="POST">
+        <h2>UPDATE <%- program.name %></h2>
+        <label for="programName">Program Name
+            <input type="text" name="name" id="programName" value="<%- program.name %>">
+        </label>
+        <label for="duration">Program Duration
+            <input type="number" name="duration" id="duration" value="<%- program.duration %>">
+        </label>
+        <textarea name="description"><%- program.description  %></textarea>
+        <button type="submit">Update Program</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

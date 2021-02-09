@@ -1,0 +1,73 @@
+<%- include("partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="images/nuaits.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1><%- program.name %></h1>
+    <section>
+        <p>
+            Here, you will gain access to:
+        </p>
+        <ul>
+            <li>Course Curriculum</li>
+            <li>Timetable</li>
+            <li>Notes and</li>
+            <li>Assignments</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Description:</h4>
+        <p>
+            <%- program.description %>
+        </p>
+
+        <p>
+            The timetable for this program is attached below, you can easily click the download button to get it.
+            <a href="/admin/files/<%- program.timetable %>">Click to download Timetable</a>
+        </p>
+    </section>
+
+    <section>
+        <h3>Course Curriculum</h3>
+            <p>
+                The course curriculum gives you insight into the different topics that will be covered in a particular module. Students are to ensure that lecturers adhere to each topic in the curriculum. Click the link to download your curriculum.
+            </p>
+            <p>
+                You can click on the individual module name to see their note(s), description, and assignment(s).
+            </p>
+            <ul>
+            <% if(courses.length > 0) { %>
+                <table border="1px" style="width: 100%;">
+                    <caption><h1>COURSES</h1></caption>
+                    <thead>
+                        <tr>
+                            <th>COURSE NAME</th>
+                            <th>CURRICULUM</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% courses.forEach((course) => { %>
+                            <tr>
+                                <td style="padding: 10px;"><%- course.courseName %></td>
+                                <td style="padding: 10px;"><a href="/file/<%- course.curriculum %>">download</a></li></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } %>
+            <% //courses.forEach((course) => { %> 
+                <!--<li><a href="/course/<%- //course._id %>"><%- //course.courseName %></a>: <a href="/file/<%- //course.curriculum %>">download</a></li>-->
+            <% //}); %>
+            </ul>
+    </section>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>

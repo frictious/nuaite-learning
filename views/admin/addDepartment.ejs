@@ -1,0 +1,43 @@
+<%- include("./partials/header")%>
+
+<!-- Main section -->
+<main>
+    <form action="/admin/department/add" method="POST" enctype="multipart/form-data">
+        <label for="department">
+            <input type="text" name="name" id="department" placeholder="Department Name">
+        </label>
+        <!-- <select name="name" id="department">
+            <option value="Physics and Computer Science">Physics and Computer Science</option>
+            <option value="Energy Studies">Energy Studies</option>
+        </select> -->
+        <label for="hodName">
+            <input type="text" name="HODName" id="hodName" placeholder="HOD Name">
+        </label>
+        <label for="deanName">
+            <input type="text" name="deanName" id="deanName" placeholder="Dean Name">
+        </label>
+        <label for="photo">Picture
+            <input type="file" name="photo" id="photo">
+        </label>
+        <label for="activity">Activity
+            <input type="file" name="activity" id="activity">
+        </label>
+        <textarea name="desc" id="desc" placeholder="Description"></textarea>
+        <button type="submit">Create Department</button>
+    </form>
+</main>
+<!-- End of main section -->
+<%- include("partials/footer") %>
+    <!-- Javascript section -->
+    <!-- <script src="/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="/js/slick.min.js" type="text/javascript"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    <script src="https://cdn.ckeditor.com/4.15.0/basic/ckeditor.js" type="text/javascript"></script> -->
+    <!-- End of javascript section -->
+
+    <!--CKEDITOR Section-->
+    <!-- <script type="text/javascript">
+        //CKEDITOR.replace('desc');
+    </script> -->
+<!-- </body>
+</html> -->

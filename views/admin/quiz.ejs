@@ -1,0 +1,45 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>QUIZ SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>MODULE NAME</th>
+                <th>EXAM YEAR</th>
+                <th>PROGRAM YEAR</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% quiz.forEach((quiz) => {%>
+                <tr>
+                    <td>
+                        <a href="/admin/program/<%-quiz._id%>"><%-quiz.quiz%></a>
+                    </td>
+                    <td>
+                        <p><%- quiz.courseName%></p>
+                    </td>
+                    <td>
+                        <p><%- quiz.examYear%></p>
+                    </td>
+                    <td>
+                        <form action="/admin/quiz/<%-quiz._id%>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                    </td>
+                </tr>
+            <%});%>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

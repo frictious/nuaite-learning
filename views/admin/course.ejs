@@ -1,0 +1,52 @@
+<%- include("./partials/header")%>
+
+<!-- Background Image -->
+<section class="bg-image">
+    <img src="/images/faculty-1.jpg" alt="NUAITS Logo">
+</section>
+<!-- End of background image -->
+
+<!-- main section -->
+<main>
+    <h1>COURSE SECTION</h1>
+    <!-- Card -->
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>COURSE NAME</th>
+                <th>COURSE CODE</th>
+                <th>PROGRAM</th>
+                <th>CURRICULUM FILE</th>
+                <th colspan="2">ACTION</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% course.forEach((course) => { %>
+            <tr>
+                <td>
+                    <a href="/admin/course/<%- course._id%>"><%- course.courseName%></a>
+                </td>
+                <td>
+                    <p><%- course.courseCode%></p>
+                </td>
+                <td>
+                    <p><%- course.programName%></p>
+                </td>
+                <td>
+                    <a href="/admin/files/<%- course.curriculum%>"><%- course.curriculum%></a>
+                </td>
+                <td>
+                    <a href="/admin/course/<%- course._id %>/edit">EDIT</a>
+                </td>
+                <td>
+                    <form action="/admin/course/<%- course._id %>?_method=DELETE" method="POST" class="delete"><button type="submit">DELETE</button></form>
+                </td>
+            </tr>
+             <% }); %>
+        </tbody>
+    </table>
+</main>
+<!-- End of main section -->
+
+<%- include("./partials/footer")%>

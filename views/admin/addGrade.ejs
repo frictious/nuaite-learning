@@ -1,0 +1,36 @@
+<%- include("partials/header")%>
+
+<!-- Main section -->
+<main>
+    <h1>ADD GRADES SECTION</h1>
+    <ul>
+        <% courses.forEach((course) => { %> 
+            <li><%- course.courseName %></li>
+        <% }); %>
+    </ul>
+    <form action="/admin/<%- department.name %>/<%- program.name %>/<%- student.studentID %>/<%- student.year %>" method="POST" class="grade">
+        <label for="studentName" class="student">Student Name
+            <input type="text" name="studentName" id="studentName" value="<%- student.name %>" readonly>
+        </label>
+        <label for="studentID" class="student">Student ID
+            <input type="number" name="studentID" id="studentID" placeholder="<%- student.studentID %>" readonly>
+        </label>
+        <select name="semester">
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+        </select>
+        <label for="courseName">Module Name
+            <input type="text" name="courseName" id="courseName" name="course" placeholder="Module Name">
+        </label>
+        <label for="grade">Grade Earned
+            <input type="text" name="grade" placeholder="Grade Earned">
+        </label>
+        <label for="academicYear">Academic Year
+            <input type="text" name="academicYear" id="academicYear" placeholder="Academic Year">
+        </label>
+        <button type="submit">Add Grade</button>
+    </form>
+</main>
+<!-- End of main section -->
+
+<%- include("partials/footer")%>
