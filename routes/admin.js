@@ -31,7 +31,7 @@ const transport = nodemailer.createTransport({
 });
 
 //GRIDFS File db connection
-const URI = /*"mongodb://localhost/njalae-learning-image" /|| */"mongodb+srv://project:project@njalae-learning-image.4xafn.mongodb.net/njalae-learning-image?retryWrites=true&w=majority";
+const URI = process.env.MONGODB_FILES;
 const conn = mongoose.createConnection(URI, {
     useNewUrlParser : true,
     useUnifiedTopology : true
