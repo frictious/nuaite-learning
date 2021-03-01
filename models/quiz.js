@@ -5,6 +5,7 @@ const quizSchema = new mongoose.Schema({
     quiz : String,
     yearTaken : String,
     year : Number,
+    originalName: String
 });
 
 

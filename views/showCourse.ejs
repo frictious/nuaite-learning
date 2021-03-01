@@ -26,7 +26,7 @@
         </p>
         <ul>
             <% notes.forEach((note) => { %>
-                <li><a href="/admin/files/<%- note.note %>"><%- note.note %></a></li>
+                <li><a href="/admin/files/<%- note.note %>"><%- note.originalName %></a></li>
             <% }); %>
         </ul>
         <hr>
@@ -48,7 +48,7 @@
                     <% assignments.forEach((assignment) => {%>
                         <tr>
                             <td>
-                                <a href="/admin/files/<%- assignment.assignment %>"><%- assignment.assignment %></a>
+                                <a href="/admin/files/<%- assignment.assignment %>"><%- assignment.originalName %></a>
                             </td>
                             <td>
                                 <p><%- assignment.instructions%></p>
@@ -79,7 +79,7 @@
                         <% quiz.forEach((quiz) => {%>
                             <tr>
                                 <td>
-                                    <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.quiz %></a>
+                                    <a href="/admin/files/<%- quiz.quiz %>"><%- quiz.originalName %></a>
                                 </td>
                                 <td>
                                     <p><%- quiz.yearTaken%></p>

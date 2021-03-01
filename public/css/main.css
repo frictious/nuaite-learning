@@ -59,9 +59,10 @@ section.card{
     box-sizing: border-box;
 }
 
-section.middle{
+div.middle{
     height: 300px;
-    width: 40%;
+    width: 80%;
+    border: 1px solid blue;
     margin: 0px auto;
     box-sizing: border-box;
     box-shadow: 3px 3px 5px 8px grey;

@@ -5,7 +5,8 @@ const assignmentSchema = new mongoose.Schema({
     assignment: String,
     year: Number,
     instructions: String,
-    submissionDate: Date
+    submissionDate: Date,
+    originalName: String
 });
 
 module.exports = mongoose.model("Assignment", assignmentSchema);

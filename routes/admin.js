@@ -1,4 +1,5 @@
 const   express                 = require("express"),
+        studentController       = require("../controller/studentController"),
         User                    = require("../models/user"),
         Department              = require("../models/department"),
         Program                 = require("../models/program"),
@@ -19,19 +20,11 @@ const   express                 = require("express"),
 
 const router = express.Router();
 
+require("dotenv").config();
 //CONFIG
-//Nodemailer configuration
-const transport = nodemailer.createTransport({
-    service : "gmail",
-    auth:{
-        type: "login",
-        user: "njalaelearning@gmail.com",
-        pass: "elearning"
-    }
-});
 
 //GRIDFS File db connection
-const URI = /*"mongodb://localhost/njalae-learning-image" /|| */"mongodb+srv://project:project@njalae-learning-image.4xafn.mongodb.net/njalae-learning-image?retryWrites=true&w=majority";
+const URI = process.env.MONGOOSE;
 const conn = mongoose.createConnection(URI, {
     useNewUrlParser : true,
     useUnifiedTopology : true
@@ -94,270 +87,54 @@ router.get("/", isLoggedIn, (req, res) => {
 
 //REGISTRATION SECTION
 //===================================================================================
+//Show all students
+router.get("/students", studentController.students);
+
 //Student Registration Route
-router.get("/studentRegistration", (req, res) => {
-    Department.find({}, (err, departments) => {
-        if(departments){//Ensuring a department exist to add a student
-            Program.find({}, (err, programs) => {
-                if(programs){//Ensuring a program exist to enroll a student in
-                    Course.find({}, (err, courses) => {
-                        if(courses){//Ensuring a course exist to add a student to
-                            res.render("admin/studentRegistration", {
-                                title: "Registration of student and admin",
-                                description : "Registering both admins and or students",
-                                programs: programs,
-                                departments : departments,
-                                courses : courses
-                            });
-                        }
-                    });             
-                }
-            });
-        }
-    });
-});
+router.get("/studentRegistration", studentController.studentRegistration);
 
 //Student Registration Route Logic
-router.post("/studentRegistration", (req, res) => {
-    const id = Number(req.body.studentID);
-    Department.find({}, (err, departments) => {
-        if(departments){
-            Program.find({}, (err, programs) => {
-                if(programs){
-                    Course.find({}, (err, courses) => {
-                        if(courses){
-                            User.findOne({
-                                email : req.body.email
-                            }, (err, foundUser) => {
-                                if(foundUser){
-                                    req.flash("error", "EMAIL / ID ALREADY EXIST");
-                                    res.redirect("/admin/studentRegistration");
-                                }else{
-                                    if(req.body.password === req.body.repassword){
-                                        bcrypt.genSalt(10)
-                                        .then(salt => {
-                                            bcrypt.hash(req.body.password, salt)
-                                            .then(hash => {
-                                                User.create({
-                                                    name : req.body.name,
-                                                    studentID : req.body.studentID,
-                                                    email : req.body.email,
-                                                    password : hash,
-                                                    program : req.body.program,
-                                                    department : req.body.department,
-                                                    year : req.body.year,
-                                                    role : "Student"
-                                                }, (err, user) => {
-                                                    if(user){
-                                                        //Adding student to the department
-                                                        Department.findOne({
-                                                            name : req.body.department
-                                                        }, (err, department) => {
-                                                            if(department){
-                                                                department.students.push(user);
-                                                                department.save();
-                                                            }else{
-                                                                req.flash("error", "DEPARTMENT NOT FOUND");
-                                                            }
-                                                        });
-                                
-                                                        //Adding student to a program
-                                                        Program.findOne({
-                                                            name : req.body.program
-                                                        }, (err, program) => {
-                                                            if(program){
-                                                                program.students.push(user);
-                                                                program.save();
-                                                            }else{
-                                                                req.flash("error", "PROGRAM NOT FOUND");
-                                                            }
-                                                        });
-                        
-                                                        //Adding student to a course
-                                                        Course.find({
-                                                            programName : req.body.program
-                                                        }, (err, course) => {
-                                                            if(course){
-                                                                if(course.year === user.year){
-                                                                    course.students.push(user);
-                                                                    course.save();
-                                                                }
-                                                            }else{
-                                                                req.flash("error", "COURSE NOT FOUND");
-                                                            }
-                                                        });
-                                                        
-                                                        //Send mail to student after successful registration
-                                                        const mailOptions = {
-                                                            from: "njalaelearning@gmail.com",
-                                                            to: req.body.email,
-                                                            subject : `Njala Student Portal Registration Information`,
-                                                            html: `<p>Dear <strong>${req.body.name}</strong>,</p>
-                                                            <p>This email is to inform you that you have been registered into the Njala E-Learning portal.</p>
-                                                            <p>Your id is: <strong>${req.body.studentID}</strong>.</p>
-                                                            <p>Your email is <strong>${req.body.email}</strong>.</p>
-                                                            <p>And your password is <strong>${req.body.password}</strong>.</p>
-                                                            <p>Please keep your login information private. If you so wish to change
-                                                            your password for security purposes, you can do so via the portal</p>
-                                                            <p>Bear in  mind that if you loose the new password, you will have to pay
-                                                            <strong>Le 50,000</strong> for your password to be changed</p>
-                                                            <br><br>
-                                                            <p>Sincerely</p>
-                                                            <p>Registration Committee</p>`
-                                                        }
-                                
-                                                        //Sending mail
-                                                        transport.sendMail(mailOptions, (err, mail) => {
-                                                            if(!err){
-                                                                res.redirect("/registration");
-                                                            }else{
-                                                                console.log(err);
-                                                            }
-                                                        });
-                                                        req.flash("success", "REGISTRATION SUCCESSFUL");
-                                                        res.redirect("/admin/studentRegistration");
-                                                    }else{
-                                                        console.log(err);
-                                                    }
-                                                });
-                                            })
-                                        }).catch(err => {
-                                            if(err){
-                                                console.log(err);
-                                            }
-                                        });
-                                    }
-                                }
-                            });        
-                        }
-                    });
-                }
-            });
-        }
-    });
-
-    //Checking if the user is already registered
-    
-});
+router.post("/studentRegistration", studentController.studentPostRegistration);
 
 //Updating student information
-router.get("/student/:id/edit", (req, res) => {
-    // Department.find({}, (err, departments) => {
-    //     if(departments){
-    //         Program.find({}, (err, programs) => {
-    //             if(programs){
-                    User.findOne({_id : req.params.id}, (err, student) => {
-                        if(student){
-                            res.render("admin/updateStudent", {
-                                title : "Update student information",
-                                description : "Updating student information",
-                                student : student,
-                                // departments : departments,
-                                // programs : programs
-                            });
-                        }
-                    });
-        //         }
-        //     });
-        // }
-    // });
-});
+router.get("/student/:id/edit", studentController.editStudent);
 
 //Updating student information logic
-router.put("/student/:id/edit", (req, res) => {
-    User.updateOne({_id : req.params.id}, {
-        name : req.body.name,
-        studentID : req.body.studentID,
-        email : req.body.email,
-        year : req.body.year,
-        // program : req.body.program,
-        // department : req.body.department 
-    }, (err, updatedStudent) => {
-        if(updatedStudent){
-            // Department.findOneAndUpdate({
-            //     name : req.body.department
-            //     // $pull : {students : {_id : req.params.id}}
-            // }, (err, department) => {
-            //     if(department){
-            //         department.students.push(updatedStudent);
-            //         department.save();
-            //         console.log("STUDENT ADDED TO DEPARTMENT");
-            //     }else{
-            //         console.log("DEPARTMENT NOT FOUND");
-            //     }
-            // });
-
-            // Program.findOne({name : req.body.program}, (err, program) => {
-            //     if(program){
-            //         program.students.push(updatedStudent);
-            //         program.save();
-            //         console.log("STUDENT ADDED TO PROGRAM");
-            //     }else{
-            //         console.log("PROGRAM NOT FOUND");
-            //     }
-            // });
-            
-            req.flash("success", "Student Information Updated Successfully");
-            res.redirect("/admin/students/");
-        }
-    });
-});
+router.put("/student/:id/edit", studentController.editStudentPutRoute);
 
 //Student Delete Route
-router.delete("/student/:id", (req, res) => {
-    User.deleteOne({_id : req.params.id}, (err) => {
-        if(!err){
-            req.flash("success", "Student Information Deleted Successfully");
-            res.redirect("back");
-        }
-    });
-});
+router.delete("/student/:id", studentController.deleteStudent);
 
-//Show all students
-router.get("/students", (req, res) => {
-    User.find({
-        role : "Student"
-    }, (err, students) => {
-        if(students){
-            res.render("admin/students", {
-                title : "Showing all students in the system",
-                description : "Students that have been registered",
-                students : students
-            });
-        }
-    });
-});
-
-//Updating students information
-router.get("/students/:id/edit", (req, res) => {
-    User.findOne({_id : req.params.id}, (err, student) => {
-        if(student){
-            res.render("admin/updateStudent", {
-                title : "Updating students information",
-                description : "Updating student's name and or information",
-                student : student
-            });
-        }
-    });
-});
+// //Updating students information
+// router.get("/students/:id/edit", (req, res) => {
+//     User.findOne({_id : req.params.id}, (err, student) => {
+//         if(student){
+//             res.render("admin/updateStudent", {
+//                 title : "Updating students information",
+//                 description : "Updating student's name and or information",
+//                 student : student
+//             });
+//         }
+//     });
+// });
 
 //Updating students information logic route
-router.put("/students/:id/edit", (req, res) => {
-    User.updateOne({_id : req.params.id}, {
-        name : req.body.name,
-        studentID : req.body.studentID,
-        email : req.body.email,
-        year : req.body.year
-    }, (err, student) => {
-        if(student){
-            req.flash("success", "STUDENT INFORMATION UPDATED SUCCESSFULLY");
-            res.redirect("/admin/students");
-        }else{
-            console.log(err);
-            res.redirect("back");
-        }
-    });
-});
+// router.put("/students/:id/edit", (req, res) => {
+//     User.updateOne({_id : req.params.id}, {
+//         name : req.body.name,
+//         studentID : req.body.studentID,
+//         email : req.body.email,
+//         year : req.body.year
+//     }, (err, student) => {
+//         if(student){
+//             req.flash("success", "STUDENT INFORMATION UPDATED SUCCESSFULLY");
+//             res.redirect("/admin/students");
+//         }else{
+//             console.log(err);
+//             res.redirect("back");
+//         }
+//     });
+// });
 
 //Admin Registration Route
 router.get("/adminRegistration", (req, res) => {
@@ -542,7 +319,9 @@ router.post("/department/add", cpUpload, (req, res) => {
                 DeanName: req.body.deanName,
                 photo: req.files['photo'][0].filename,
                 activities : req.files['activity'][0].filename,
-                description: req.body.desc
+                description: req.body.desc,
+                originalNameOne : req.files['photo'][0].originalname,
+                originalNameTwo : req.files['activity'][0].originalname
             }, (err, department) => {
                 if(department){
                     req.flash("success", "Department Added Successfully");
@@ -667,7 +446,8 @@ router.post("/program/add", files.single("timetable"), (req, res) => {
                     duration : req.body.duration,
                     timetable : req.file.filename,
                     departmentName: req.body.departmentName,
-                    description : req.body.description
+                    description : req.body.description,
+                    originalName : req.file.originalname
                 }, (err, program) => {
                     if(program){
                         Department.findOne({name : req.body.departmentName}, (err, foundDepartment) => {
@@ -819,7 +599,8 @@ router.post("/course/add", files.single("curriculum"), (req, res) => {
         year : req.body.year,
         semester : req.body.semester,
         lecturer : req.body.lecturer,
-        creditHour : req.body.creditHour
+        creditHour : req.body.creditHour,
+        originalName : req.file.originalname
     }, (err, course) => {
         if(course){
             Program.findOne({name : req.body.programName}, (err, foundProgram) => {
@@ -1002,7 +783,8 @@ router.post("/note/add", files.single("note"), (req, res) => {
             Note.create({
                 courseName : req.body.courseName,
                 note : req.file.filename,
-                year : req.body.year
+                year : req.body.year,
+                originalName : req.file.originalname
             }, (err, note) => {
                 if(note){
                     course.notes.push(note);
@@ -1051,7 +833,8 @@ router.post("/assignment/add", files.single("assignment"), (req, res) => {
                 assignment : req.file.filename,
                 year : req.body.year,
                 instructions : req.body.instructions,
-                submissionDate : req.body.submissionDate
+                submissionDate : req.body.submissionDate,
+                originalName : req.file.originalname
             }, (err, assignment) => {
                 if(assignment){
                     course.assignments.push(assignment);
@@ -1098,7 +881,8 @@ router.post("/quiz/add", files.single("quiz"), (req, res) => {
                 courseName : req.body.courseName,
                 quiz : req.file.filename,
                 year : req.body.year,
-                yearTaken : req.body.yearTaken
+                yearTaken : req.body.yearTaken,
+                originalName : req.file.originalname
             }, (err, quiz) => {
                 if(quiz){
                     course.quiz.push(quiz);

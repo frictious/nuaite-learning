@@ -15,7 +15,8 @@ const programSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
     }],
-    description : String
+    description : String,
+    originalName: String
 });
 
 module.exports = mongoose.model("Program", programSchema);

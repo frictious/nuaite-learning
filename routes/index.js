@@ -128,7 +128,7 @@ router.get("/program", isLoggedIn, (req, res) => {
         if(user){
             Program.findOne({name : user.program}, (err, foundProgram) => {
                 if(foundProgram){
-                    Course.find({programName : foundProgram.name}, (err, courses) => {
+                    Course.find({programName : foundProgram.name, year : user.year}, (err, courses) => {
                         if(courses){
                             Note.find({courseName : courses.name}, (err, notes) =>{
                                 if(notes){

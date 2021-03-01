@@ -54,10 +54,12 @@
 
                     <tbody>
                         <% courses.forEach((course) => { %>
-                            <tr>
-                                <td style="padding: 10px;"><%- course.courseName %></td>
-                                <td style="padding: 10px;"><a href="/file/<%- course.curriculum %>">download</a></li></td>
-                            </tr>
+                            <% //if(course.year === user.year) { %>
+                                <tr>
+                                    <td style="padding: 10px;"> <a href="/course/<%- course._id %>"><%- course.courseName %></a> </td>
+                                    <td style="padding: 10px;"><a href="/file/<%- course.curriculum %>">download</a></li></td>
+                                </tr>
+                            <% //} %>
                         <% }); %>
                     </tbody>
                 </table>
