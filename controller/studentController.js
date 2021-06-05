@@ -158,8 +158,7 @@ exports.studentPostRegistration = (req, res) => {
             });
         }
     });
-
-    //Checking if the user is already registered
+    //Checking if the user/student is already registered
     
 };
 
