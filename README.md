@@ -2,7 +2,7 @@
 An E-Learning portal built for Njala University Association of IT Students, as a final year project
 I developed it as a means of improving myself.
 
-The project has both front-end for the end users/students, and back-end for admin.
+The project has both front-end users/students interface, and dashboard for admin.
 
 A single login system seperated by a "role" property was used as a means of identifying an admin, and or student.
 
